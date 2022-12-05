@@ -7,10 +7,11 @@ import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 load_dotenv()
 
-api_key = os.getenv("api_key")
-api_secret = os.getenv("api_key_secret")
-access_token = os.getenv("access_token")
-access_token_secret = os.getenv("access_token_secret")
+bearer_token = os.getenv("bearer_token")
 
-auth = tw.OAuthHandler(api_key, api_secret, access_token, access_token_secret)
-api = tw.API(auth, wait_on_rate_limit=True)
+client = tw.Client(bearer_token)
+
+hashtag = "#FRAPOL -is:retweet"
+tweets = client.search_recent_tweets(query=hashtag,tweet_fields=['created_at'])
+tweets = [{"Tweets": tweet.text, "Timestamp": tweet.created_at} for tweet in tweets.data]
+print(tweets)
