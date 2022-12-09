@@ -11,7 +11,10 @@ bearer_token = os.getenv("bearer_token")
 
 client = tw.Client(bearer_token)
 
+#Get Tweets
 hashtag = "#FRAPOL -is:retweet"
 tweets = client.search_recent_tweets(query=hashtag,tweet_fields=['created_at'])
 tweets = [{"Tweets": tweet.text, "Timestamp": tweet.created_at} for tweet in tweets.data]
-print(tweets)
+
+df = pd.DataFrame.from_dict(tweets)
+print(df.head())
